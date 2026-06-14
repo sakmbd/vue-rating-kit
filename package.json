@@ -1,8 +1,16 @@
 {
   "name": "vue-rating-kit",
   "version": "0.1.0-alpha.0",
-  "description": "Lightweight, accessible, enterprise-grade star rating component for Vue 3",
-  "keywords": ["vue", "vue3", "rating", "stars", "component", "accessible"],
+  "description": "Lightweight, accessible, TypeScript-first star rating component for Vue 3",
+  "keywords": [
+    "vue",
+    "vue3",
+    "star-rating",
+    "rating-component",
+    "typescript",
+    "accessibility",
+    "composition-api"
+  ],
   "license": "MIT",
   "type": "module",
   "main": "./dist/vue-rating-kit.cjs.js",
@@ -46,5 +54,15 @@
     "vitest": "^4.1.8",
     "vue": "^3.5.34",
     "vue-tsc": "^3.2.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sakmbd/vue-rating-kit.git"
+  },
+
+  "homepage": "https://github.com/sakmbd/vue-rating-kit#readme",
+
+  "bugs": {
+    "url": "https://github.com/sakmbd/vue-rating-kit/issues"
   }
 }
