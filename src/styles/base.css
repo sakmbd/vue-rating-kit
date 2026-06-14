@@ -1,0 +1,13 @@
+/* TODO: Define CSS custom properties for theming
+ *
+ * All properties must be scoped under .vrk-rating to avoid global pollution.
+ *
+ * Planned variables:
+ *   --vrk-color-filled    — fill color for selected stars
+ *   --vrk-color-empty     — fill color for unselected stars
+ *   --vrk-color-hover     — fill color on hover
+ *   --vrk-color-disabled  — fill color in disabled state
+ *   --vrk-star-size       — width and height of each star
+ *   --vrk-star-gap        — spacing between stars
+ *   --vrk-focus-outline   — outline style for keyboard focus visibility
+ */

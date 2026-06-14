@@ -1,0 +1,17 @@
+/* TODO: Implement all VRating component styles
+ *
+ * All class names must use the vrk- prefix (CLAUDE.md §5). No exceptions.
+ *
+ * Required classes:
+ *   .vrk-rating                    — root container (flex row, sets custom properties)
+ *   .vrk-rating__star              — individual star element (size, cursor, transition)
+ *   .vrk-rating__star--filled      — active/selected star state
+ *   .vrk-rating__star--hover       — hover highlight state
+ *   .vrk-rating__star--readonly    — cursor: default, no pointer interaction
+ *   .vrk-rating__star--disabled    — reduced opacity, cursor: not-allowed
+ *
+ * Accessibility requirements:
+ *   - Must preserve :focus-visible outline — never suppress focus rings globally
+ *   - Must not rely on color alone to convey state (use shape/size fallback)
+ *   - Transitions must respect prefers-reduced-motion
+ */
