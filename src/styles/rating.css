@@ -1,17 +1,50 @@
-/* TODO: Implement all VRating component styles
- *
- * All class names must use the vrk- prefix (CLAUDE.md §5). No exceptions.
- *
- * Required classes:
- *   .vrk-rating                    — root container (flex row, sets custom properties)
- *   .vrk-rating__star              — individual star element (size, cursor, transition)
- *   .vrk-rating__star--filled      — active/selected star state
- *   .vrk-rating__star--hover       — hover highlight state
- *   .vrk-rating__star--readonly    — cursor: default, no pointer interaction
- *   .vrk-rating__star--disabled    — reduced opacity, cursor: not-allowed
- *
- * Accessibility requirements:
- *   - Must preserve :focus-visible outline — never suppress focus rings globally
- *   - Must not rely on color alone to convey state (use shape/size fallback)
- *   - Transitions must respect prefers-reduced-motion
- */
+@import './base.css';
+
+.vrk-rating {
+  display: flex;
+  gap: var(--vrk-star-gap);
+  align-items: center;
+}
+
+.vrk-rating__star {
+  font-size: var(--vrk-star-size);
+  color: var(--vrk-color-empty);
+  cursor: pointer;
+  user-select: none;
+  line-height: 1;
+  transition: color 0.1s ease;
+}
+
+.vrk-rating__star--filled {
+  color: var(--vrk-color-filled);
+}
+
+/* Declared after --filled so the cascade gives hover visual priority */
+.vrk-rating__star--hover {
+  color: var(--vrk-color-hover);
+}
+
+/* cursor only — interaction blocking is handled by useRating's isInteractive() guard,
+   not pointer-events, so hover and focus behaviors remain available for future phases */
+.vrk-rating__star--readonly {
+  cursor: default;
+}
+
+.vrk-rating__star--disabled {
+  color: var(--vrk-color-disabled);
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.vrk-rating__star:focus-visible {
+  outline: var(--vrk-focus-outline);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vrk-rating__star {
+    transition: none;
+  }
+}

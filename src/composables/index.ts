@@ -1,2 +1,1 @@
-// TODO: Export useRating composable
-// export { useRating } from './useRating'
+export { useRating } from './useRating'

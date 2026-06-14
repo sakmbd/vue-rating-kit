@@ -1,2 +1,1 @@
-// TODO: Export all internal utility functions
-// export { clamp } from './clamp'
+export { clamp } from './clamp'
