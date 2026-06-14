@@ -284,4 +284,55 @@ describe('Rating', () => {
       expect(ariaReadonly).toBe('true')
     })
   })
+
+  describe('focus and blur', () => {
+    it('emits focus when keyboard focus enters the component', async () => {
+      // Arrange
+      const wrapper = mount(Rating)
+
+      // Act — relatedTarget null means focus arrived from outside the component
+      await wrapper.trigger('focusin', { relatedTarget: null })
+
+      // Assert
+      expect(wrapper.emitted('focus')).toBeTruthy()
+      expect(wrapper.emitted('focus')).toHaveLength(1)
+    })
+
+    it('emits blur when keyboard focus leaves the component', async () => {
+      // Arrange
+      const wrapper = mount(Rating)
+
+      // Act — relatedTarget null means focus moved outside the component
+      await wrapper.trigger('focusout', { relatedTarget: null })
+
+      // Assert
+      expect(wrapper.emitted('blur')).toBeTruthy()
+      expect(wrapper.emitted('blur')).toHaveLength(1)
+    })
+
+    it('moving focus between stars inside the component does not emit additional focus events', async () => {
+      // Arrange — enter the component from outside (produces one focus emission)
+      const wrapper = mount(Rating)
+      const stars = wrapper.findAll('.vrk-rating__star')
+      await stars[0].trigger('focusin', { relatedTarget: null })
+
+      // Act — move focus from star 1 to star 2; relatedTarget is inside the component
+      await stars[1].trigger('focusin', { relatedTarget: stars[0].element })
+
+      // Assert — no additional focus emitted; count remains 1
+      expect(wrapper.emitted('focus')).toHaveLength(1)
+    })
+
+    it('moving focus between stars inside the component does not emit blur events', async () => {
+      // Arrange
+      const wrapper = mount(Rating)
+      const stars = wrapper.findAll('.vrk-rating__star')
+
+      // Act — focusout from star 1 with relatedTarget pointing to star 2 (still inside)
+      await stars[0].trigger('focusout', { relatedTarget: stars[1].element })
+
+      // Assert
+      expect(wrapper.emitted('blur')).toBeFalsy()
+    })
+  })
 })

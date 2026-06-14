@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { VRating } from './index'
 
-const rating = ref(3)
+const rating = ref(3.5)
 </script>
 
 <template>
