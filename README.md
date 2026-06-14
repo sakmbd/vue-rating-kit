@@ -1,5 +1,9 @@
 # vue-rating-kit
 
+[![npm version](https://img.shields.io/npm/v/vue-rating-kit)](https://www.npmjs.com/package/vue-rating-kit)
+[![npm downloads](https://img.shields.io/npm/dm/vue-rating-kit)](https://www.npmjs.com/package/vue-rating-kit)
+[![license](https://img.shields.io/npm/l/vue-rating-kit)](LICENSE)
+
 Lightweight, accessible, enterprise-grade star rating component for Vue 3. Built with the Composition API, fully typed with TypeScript, and styled with pure CSS.
 
 * ⭐ Lightweight with zero runtime dependencies
