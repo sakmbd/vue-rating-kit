@@ -1,8 +1,26 @@
 {
   "name": "vue-rating-kit",
-  "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0-alpha.0",
+  "description": "Lightweight, accessible, enterprise-grade star rating component for Vue 3",
+  "keywords": ["vue", "vue3", "rating", "stars", "component", "accessible"],
+  "license": "MIT",
   "type": "module",
+  "main": "./dist/vue-rating-kit.cjs.js",
+  "module": "./dist/vue-rating-kit.es.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/vue-rating-kit.es.js",
+      "require": "./dist/vue-rating-kit.cjs.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./dist/vue-rating-kit.css": "./dist/vue-rating-kit.css"
+  },
+  "files": ["dist"],
+  "sideEffects": ["*.css"],
+  "peerDependencies": {
+    "vue": "^3.3.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
@@ -10,9 +28,6 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage"
-  },
-  "dependencies": {
-    "vue": "^3.5.34"
   },
   "devDependencies": {
     "@types/node": "^24.12.3",
@@ -23,7 +38,9 @@
     "jsdom": "^29.1.1",
     "typescript": "~6.0.2",
     "vite": "^8.0.12",
+    "vite-plugin-dts": "^4.0.0",
     "vitest": "^4.1.8",
+    "vue": "^3.5.34",
     "vue-tsc": "^3.2.8"
   }
 }
