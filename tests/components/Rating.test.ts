@@ -119,6 +119,90 @@ describe('Rating', () => {
     })
   })
 
+  describe('keyboard', () => {
+    it('ArrowRight increments the rating value', async () => {
+      // Arrange
+      const wrapper = mount(Rating, {
+        props: { modelValue: 2 },
+      })
+
+      // Act — trigger on the focusable star (tabindex="0" = star 2 for modelValue 2)
+      await wrapper.find('[tabindex="0"]').trigger('keydown', { key: 'ArrowRight' })
+
+      // Assert
+      expect(wrapper.emitted('update:modelValue')).toBeTruthy()
+      expect(wrapper.emitted('update:modelValue')![0]).toEqual([3])
+    })
+
+    it('ArrowLeft decrements the rating value', async () => {
+      // Arrange
+      const wrapper = mount(Rating, {
+        props: { modelValue: 3 },
+      })
+
+      // Act — trigger on the focusable star (tabindex="0" = star 3 for modelValue 3)
+      await wrapper.find('[tabindex="0"]').trigger('keydown', { key: 'ArrowLeft' })
+
+      // Assert
+      expect(wrapper.emitted('update:modelValue')).toBeTruthy()
+      expect(wrapper.emitted('update:modelValue')![0]).toEqual([2])
+    })
+
+    it('Home sets the rating to the minimum value', async () => {
+      // Arrange
+      const wrapper = mount(Rating, {
+        props: { modelValue: 4 },
+      })
+
+      // Act — trigger on the focusable star (tabindex="0" = star 4 for modelValue 4)
+      await wrapper.find('[tabindex="0"]').trigger('keydown', { key: 'Home' })
+
+      // Assert
+      expect(wrapper.emitted('update:modelValue')).toBeTruthy()
+      expect(wrapper.emitted('update:modelValue')![0]).toEqual([0])
+    })
+
+    it('End sets the rating to the maximum value', async () => {
+      // Arrange
+      const wrapper = mount(Rating, {
+        props: { modelValue: 2, max: 5 },
+      })
+
+      // Act — trigger on the focusable star (tabindex="0" = star 2 for modelValue 2)
+      await wrapper.find('[tabindex="0"]').trigger('keydown', { key: 'End' })
+
+      // Assert
+      expect(wrapper.emitted('update:modelValue')).toBeTruthy()
+      expect(wrapper.emitted('update:modelValue')![0]).toEqual([5])
+    })
+
+    it('disabled prevents keyboard interaction', async () => {
+      // Arrange
+      const wrapper = mount(Rating, {
+        props: { modelValue: 2, disabled: true },
+      })
+
+      // Act — disabled removes all tabindex="0" elements; trigger on the first star
+      await wrapper.findAll('.vrk-rating__star')[0].trigger('keydown', { key: 'ArrowRight' })
+
+      // Assert
+      expect(wrapper.emitted('update:modelValue')).toBeFalsy()
+    })
+
+    it('readonly prevents keyboard interaction', async () => {
+      // Arrange
+      const wrapper = mount(Rating, {
+        props: { modelValue: 2, readonly: true },
+      })
+
+      // Act — readonly preserves tabindex; trigger on the focusable star
+      await wrapper.find('[tabindex="0"]').trigger('keydown', { key: 'ArrowRight' })
+
+      // Assert
+      expect(wrapper.emitted('update:modelValue')).toBeFalsy()
+    })
+  })
+
   describe('accessibility', () => {
     it('root has radiogroup role', () => {
       // Arrange
@@ -154,8 +238,11 @@ describe('Rating', () => {
       const stars = wrapper.findAll('.vrk-rating__star')
 
       // Assert
-      expect(stars[2].attributes('aria-checked')).toBe('true')
-      expect(stars[0].attributes('aria-checked')).toBe('false')
+      stars.forEach((star, index) => {
+        expect(star.attributes('aria-checked')).toBe(
+          index === 2 ? 'true' : 'false'
+        )
+      })
     })
 
     it('aria-label is applied to the root element', () => {
