@@ -14,9 +14,13 @@
       "require": "./dist/vue-rating-kit.cjs.js",
       "types": "./dist/types/index.d.ts"
     },
-    "./dist/vue-rating-kit.css": "./dist/vue-rating-kit.css"
+    "./style.css": "./dist/vue-rating-kit.css"
   },
-  "files": ["dist"],
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
   "sideEffects": ["*.css"],
   "peerDependencies": {
     "vue": "^3.3.0"

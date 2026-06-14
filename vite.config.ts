@@ -17,7 +17,7 @@ export default defineConfig({
         'src/constants/**',
       ],
       outDir: 'dist/types',
-      rollupTypes: true,
+      rollupTypes: false,
       cleanVueFileName: true,
     }),
   ],
