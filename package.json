@@ -7,12 +7,12 @@
   "type": "module",
   "main": "./dist/vue-rating-kit.cjs.js",
   "module": "./dist/vue-rating-kit.es.js",
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/types/src/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/vue-rating-kit.es.js",
       "require": "./dist/vue-rating-kit.cjs.js",
-      "types": "./dist/types/index.d.ts"
+      "types": "./dist/types/src/index.d.ts"
     },
     "./style.css": "./dist/vue-rating-kit.css"
   },
