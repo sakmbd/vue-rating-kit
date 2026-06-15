@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { VRating } from 'vue-rating-kit'
-import 'vue-rating-kit/style.css'
+import { VRating } from './index'
 
 const rating = ref(2)
 
