@@ -64,8 +64,5 @@
   "homepage": "https://github.com/sakmbd/vue-rating-kit#readme",
   "bugs": {
     "url": "https://github.com/sakmbd/vue-rating-kit/issues"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
   }
 }
