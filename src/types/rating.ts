@@ -62,6 +62,30 @@ export interface RatingProps {
    * @default 'Rating'
    */
   ariaLabel?: string;
+
+  /**
+   * Granularity of selectable rating values.
+   *
+   * Must be a positive divisor of 1 — that is, `1 / step` must be
+   * a whole number. This restriction keeps zone arithmetic exact and
+   * avoids accumulated floating-point error across the rating scale.
+   *
+   * Supported values (Phase 2):
+   * - `1`    → whole stars only: 0, 1, 2, 3, 4, 5          (default)
+   * - `0.5`  → half-star precision: 0, 0.5, 1.0, 1.5, …, 5
+   * - `0.25` → quarter-star precision: 0, 0.25, 0.5, …, 5
+   * - `0.2`  → fifth-star precision: 0, 0.2, 0.4, …, 5
+   * - `0.1`  → tenth-star precision: 0, 0.1, 0.2, …, 5
+   *
+   * Unsupported (will warn and fall back to `1`):
+   * - `0.3`, `0.7`, `0.33`, or any value where `1 / step` is not
+   *   a whole number.
+   *
+   * Arbitrary floating-point precision is not supported in this phase.
+   *
+   * @default 1
+   */
+  step?: number;
 }
 
 export type RatingEmits = {
