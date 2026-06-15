@@ -28,6 +28,16 @@ function resolveStep(rawStep: number | undefined, max: number): number {
   return step
 }
 
+function computeStarValue(event: MouseEvent, starIndex: number, step: number): number {
+  const target = event.currentTarget as HTMLElement
+  const rect = target.getBoundingClientRect()
+  if (rect.width <= 0) return starIndex
+  const fraction = clamp((event.clientX - rect.left) / rect.width, 0, 1)
+  const zonesPerStar = 1 / step
+  const zone = Math.max(1, Math.ceil(fraction * zonesPerStar))
+  return (starIndex - 1) + zone * step
+}
+
 export function useRating(props: RatingProps, emit: EmitFn<RatingEmits>) {
   const hoverValue: Ref<number> = ref(0)
 
@@ -35,16 +45,27 @@ export function useRating(props: RatingProps, emit: EmitFn<RatingEmits>) {
     return !props.readonly && !props.disabled
   }
 
-  function handleClick(star: number): void {
+  function handleMouseMove(event: MouseEvent, starIndex: number): void {
     if (!isInteractive()) return
-    emit('update:modelValue', star)
-    emit('change', star)
+    const max = props.max ?? DEFAULT_MAX
+    const step = resolveStep(props.step, max)
+    const value = computeStarValue(event, starIndex, step)
+    if (value === hoverValue.value) return
+    hoverValue.value = value
+    emit('hover', value)
   }
 
-  function handleMouseEnter(star: number): void {
+  function handleClick(event: MouseEvent, star: number): void {
     if (!isInteractive()) return
-    hoverValue.value = star
-    emit('hover', star)
+    const max = props.max ?? DEFAULT_MAX
+    const step = resolveStep(props.step, max)
+    const value = computeStarValue(event, star, step)
+    emit('update:modelValue', value)
+    emit('change', value)
+  }
+
+  function handleMouseEnter(event: MouseEvent, star: number): void {
+    handleMouseMove(event, star)
   }
 
   function handleMouseLeave(): void {
@@ -94,5 +115,6 @@ export function useRating(props: RatingProps, emit: EmitFn<RatingEmits>) {
     handleMouseEnter,
     handleMouseLeave,
     handleKeydown,
+    handleMouseMove,
   }
 }

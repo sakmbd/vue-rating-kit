@@ -1,20 +1,28 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { VRating } from './index'
+import { VRating } from 'vue-rating-kit'
+import 'vue-rating-kit/style.css'
 
-const rating = ref(3.5)
+const rating = ref(2)
+
+function handleChange(value: number) {
+  console.log('change:', value)
+}
+
+function handleHover(value: number) {
+  console.log('hover:', value)
+}
 </script>
 
 <template>
-  <div style="padding: 2rem">
-    <h1>vue-rating-kit Playground</h1>
+  <div>
+    <h2>Rating: {{ rating }}</h2>
 
     <VRating
       v-model="rating"
-      aria-label="Product rating"
-      
+      :step="0.5"
+      @change="handleChange"
+      @hover="handleHover"
     />
-
-    <p>Current rating: {{ rating }}</p>
   </div>
 </template>

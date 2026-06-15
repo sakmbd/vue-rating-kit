@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<RatingProps>(), {
 
 const emit = defineEmits<RatingEmits>()
 
-const { hoverValue, handleClick, handleMouseEnter, handleMouseLeave, handleKeydown } =
+const { hoverValue, handleClick, handleMouseEnter, handleMouseLeave, handleKeydown, handleMouseMove } =
   useRating(props, emit)
 
 const rootRef = ref<HTMLElement | null>(null)
@@ -36,7 +36,7 @@ function getStarClasses(star: number) {
   return {
     'vrk-rating__star': true,
     'vrk-rating__star--filled': star <= (props.modelValue ?? DEFAULT_VALUE),
-    'vrk-rating__star--hover': hoverValue.value > 0 && star <= hoverValue.value,
+    'vrk-rating__star--hover': hoverValue.value > 0 && star <= Math.ceil(hoverValue.value),
     'vrk-rating__star--readonly': props.readonly,
     'vrk-rating__star--disabled': props.disabled,
   }
@@ -45,7 +45,7 @@ function getStarClasses(star: number) {
 function getStarTabIndex(star: number): number {
   if (props.disabled) return -1
   const activeValue = props.modelValue ?? DEFAULT_VALUE
-  const activeStar = activeValue > 0 ? activeValue : 1
+  const activeStar = activeValue > 0 ? Math.ceil(activeValue) : 1
   return star === activeStar ? 0 : -1
 }
 </script>
@@ -69,8 +69,9 @@ function getStarTabIndex(star: number): number {
       :aria-label="`${star} ${star === 1 ? 'star' : 'stars'}`"
       :tabindex="getStarTabIndex(star)"
       :class="getStarClasses(star)"
-      @click="handleClick(star)"
-      @mouseenter="handleMouseEnter(star)"
+      @click="handleClick($event, star)"
+      @mouseenter="handleMouseEnter($event, star)"
+      @mousemove="handleMouseMove($event, star)"
       @mouseleave="handleMouseLeave"
       @keydown="handleKeydown"
     >&#9733;</span>
