@@ -64,6 +64,6 @@
     "url": "https://github.com/sakmbd/vue-rating-kit/issues"
   },
   "publishConfig": {
-    "registry": "https://www.npmjs.com/package/vue-rating-kit"
+    "registry": "https://registry.npmjs.org/"
   }
 }

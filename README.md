@@ -7,6 +7,8 @@
 Lightweight, accessible, enterprise-grade star rating component for Vue 3. Built with the Composition API, fully typed with TypeScript, and styled with pure CSS.
 
 * ⭐ Lightweight with zero runtime dependencies
+* ✨ Precision ratings with configurable step values
+* 🎨 Fractional visual rendering (half, quarter, and tenth stars)
 * ♿ Accessible with ARIA support
 * ⌨️ Keyboard navigation support
 * 🎨 Pure CSS with customizable variables
@@ -51,6 +53,41 @@ const rating = ref(3)
 
 ---
 
+## Precision Ratings
+
+Control the granularity of selectable rating values using the `step` prop.
+
+Supported values:
+
+| Step   | Example Values                       |
+| ------ | ------------------------------------ |
+| `1`    | `1`, `2`, `3`, `4`, `5`              |
+| `0.5`  | `0.5`, `1.5`, `2.5`, `3.5`, `4.5`    |
+| `0.25` | `0.25`, `0.5`, `0.75`, `1.25`, `1.5` |
+| `0.2`  | `0.2`, `0.4`, `0.6`, `0.8`, `1.2`    |
+| `0.1`  | `0.1`, `0.2`, `0.3`, `0.4`, `0.5`    |
+
+Example:
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import { VRating } from 'vue-rating-kit'
+import 'vue-rating-kit/style.css'
+
+const rating = ref(2.5)
+</script>
+
+<template>
+  <VRating
+    v-model="rating"
+    :step="0.5"
+  />
+</template>
+```
+
+---
+
 ## Readonly Example
 
 ```vue
@@ -80,28 +117,32 @@ import { ref } from 'vue'
 import { VRating } from 'vue-rating-kit'
 import 'vue-rating-kit/style.css'
 
-const rating = ref(2)
+const rating = ref(2.5)
 </script>
 
 <template>
   <VRating
     v-model="rating"
+    :step="0.5"
     disabled
   />
 </template>
 ```
 
+> **Note:** Disabled ratings preserve the current rating value while preventing all user interaction.
+
 ---
 
 ## Props
 
-| Prop         | Type      | Default    | Description                                                      |
-| ------------ | --------- | ---------- | ---------------------------------------------------------------- |
-| `modelValue` | `number`  | `0`        | Current rating value (use with `v-model`)                        |
-| `max`        | `number`  | `5`        | Total number of stars                                            |
-| `readonly`   | `boolean` | `false`    | Prevents value changes while preserving hover and focus behavior |
-| `disabled`   | `boolean` | `false`    | Prevents all interaction and applies disabled styling            |
-| `ariaLabel`  | `string`  | `'Rating'` | Accessible label for the rating group                            |
+| Prop         | Type      | Default    | Description                                                                                                   |
+| ------------ | --------- | ---------- | ------------------------------------------------------------------------------------------------------------- |
+| `modelValue` | `number`  | `0`        | Current rating value (use with `v-model`)                                                                     |
+| `max`        | `number`  | `5`        | Total number of stars                                                                                         |
+| `step`       | `number`  | `1`        | Granularity of rating values. Supports `1`, `0.5`, `0.25`, `0.2`, and `0.1`. Invalid values fall back to `1`. |
+| `readonly`   | `boolean` | `false`    | Prevents value changes while preserving the current rating display                                            |
+| `disabled`   | `boolean` | `false`    | Prevents all interaction while preserving the current rating display using disabled styling                   |
+| `ariaLabel`  | `string`  | `'Rating'` | Accessible label for the rating group                                                                         |
 
 ---
 
@@ -119,12 +160,28 @@ const rating = ref(2)
 
 ## Keyboard Navigation
 
-| Key          | Action                          |
-| ------------ | ------------------------------- |
-| `ArrowRight` | Increment rating by 1           |
-| `ArrowLeft`  | Decrement rating by 1           |
-| `Home`       | Set rating to `0`               |
-| `End`        | Set rating to the maximum value |
+| Key          | Action                                          |
+| ------------ | ----------------------------------------------- |
+| `ArrowRight` | Increment rating by the configured `step` value |
+| `ArrowLeft`  | Decrement rating by the configured `step` value |
+| `Home`       | Set rating to `0`                               |
+| `End`        | Set rating to the maximum value                 |
+
+---
+
+## Invalid Step Values
+
+The `step` prop must be a positive divisor of `1`.
+
+Unsupported values such as:
+
+```ts
+0.3
+0.7
+0.33
+```
+
+will trigger a development warning and automatically fall back to `1`.
 
 ---
 
