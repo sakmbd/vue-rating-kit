@@ -12,14 +12,31 @@
   cursor: pointer;
   user-select: none;
   line-height: 1;
+  position: relative;
   transition: color 0.1s ease;
+}
+
+.vrk-rating__star-track {
+  color: var(--vrk-color-empty);
+}
+
+.vrk-rating__star-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  color: inherit;
 }
 
 .vrk-rating__star--filled {
   color: var(--vrk-color-filled);
 }
 
-/* Declared after --filled so the cascade gives hover visual priority */
+.vrk-rating__star--partial {
+  color: var(--vrk-color-filled);
+}
+
 .vrk-rating__star--hover {
   color: var(--vrk-color-hover);
 }
@@ -31,10 +48,13 @@
 }
 
 .vrk-rating__star--disabled {
-  color: var(--vrk-color-disabled);
   cursor: not-allowed;
   opacity: 0.5;
   pointer-events: none;
+}
+
+.vrk-rating__star--disabled .vrk-rating__star-track {
+  color: var(--vrk-color-disabled);
 }
 
 .vrk-rating__star:focus-visible {
@@ -44,7 +64,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vrk-rating__star {
+  .vrk-rating__star,
+  .vrk-rating__star-fill {
     transition: none;
   }
 }

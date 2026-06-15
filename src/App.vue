@@ -9,9 +9,6 @@ function handleChange(value: number) {
   console.log('change:', value)
 }
 
-function handleHover(value: number) {
-  console.log('hover:', value)
-}
 </script>
 
 <template>
@@ -20,9 +17,9 @@ function handleHover(value: number) {
 
     <VRating
       v-model="rating"
-      :step="0.5"
+      :step="0.25"
       @change="handleChange"
-      @hover="handleHover"
+      
     />
   </div>
 </template>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { DEFAULT_MAX, DEFAULT_VALUE } from '../constants'
+import { clamp } from '../utils/clamp'
 import { useRating } from '../composables/useRating'
 import type { RatingProps, RatingEmits } from '../types/rating'
 import '../styles/rating.css'
@@ -32,11 +33,21 @@ function handleFocusout(event: FocusEvent): void {
   }
 }
 
+function getFillPercent(star: number): number {
+  const activeValue = hoverValue.value > 0 ? hoverValue.value : (props.modelValue ?? DEFAULT_VALUE)
+  return clamp(activeValue - (star - 1), 0, 1) * 100
+}
+
 function getStarClasses(star: number) {
+  const modelVal = props.modelValue ?? DEFAULT_VALUE
+  const isHovering = hoverValue.value > 0
+  const inHoverRange = isHovering && star <= Math.ceil(hoverValue.value)
+  const isPartial = !isHovering && modelVal > (star - 1) && modelVal < star
   return {
     'vrk-rating__star': true,
-    'vrk-rating__star--filled': star <= (props.modelValue ?? DEFAULT_VALUE),
-    'vrk-rating__star--hover': hoverValue.value > 0 && star <= Math.ceil(hoverValue.value),
+    'vrk-rating__star--filled': !inHoverRange && star <= modelVal,
+    'vrk-rating__star--partial': isPartial,
+    'vrk-rating__star--hover': inHoverRange,
     'vrk-rating__star--readonly': props.readonly,
     'vrk-rating__star--disabled': props.disabled,
   }
@@ -74,6 +85,13 @@ function getStarTabIndex(star: number): number {
       @mousemove="handleMouseMove($event, star)"
       @mouseleave="handleMouseLeave"
       @keydown="handleKeydown"
-    >&#9733;</span>
+    >
+      <span class="vrk-rating__star-track" aria-hidden="true">&#9733;</span>
+      <span
+        class="vrk-rating__star-fill"
+        :style="{ width: getFillPercent(star) + '%' }"
+        aria-hidden="true"
+      >&#9733;</span>
+    </span>
   </div>
 </template>
