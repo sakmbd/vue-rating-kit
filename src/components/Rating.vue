@@ -16,10 +16,20 @@ const props = withDefaults(defineProps<RatingProps>(), {
 
 const emit = defineEmits<RatingEmits>()
 
-const { hoverValue, handleClick, handleMouseEnter, handleMouseLeave, handleKeydown, handleMouseMove } =
-  useRating(props, emit)
-
 const rootRef = ref<HTMLElement | null>(null)
+
+const {
+  hoverValue,
+  handleClick,
+  handleMouseEnter,
+  handleMouseLeave,
+  handleKeydown,
+  handleMouseMove,
+  handleTouchStart,
+  handleTouchMove,
+  handleTouchEnd,
+  handleTouchCancel,
+} = useRating(props, emit)
 
 function handleFocusin(event: FocusEvent): void {
   if (!rootRef.value?.contains(event.relatedTarget as Node)) {
@@ -71,6 +81,10 @@ function getStarTabIndex(star: number): number {
     :aria-readonly="readonly || undefined"
     @focusin="handleFocusin"
     @focusout="handleFocusout"
+    @touchstart.prevent="handleTouchStart($event, rootRef)"
+    @touchmove="handleTouchMove($event, rootRef)"
+    @touchend="handleTouchEnd"
+    @touchcancel="handleTouchCancel"
   >
     <span
       v-for="star in max"

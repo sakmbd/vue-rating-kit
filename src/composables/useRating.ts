@@ -35,17 +35,40 @@ function isRTLEvent(event: Event): boolean {
   return getComputedStyle(el).direction === 'rtl'
 }
 
-function computeStarValue(event: MouseEvent, starIndex: number, step: number, rtl: boolean): number {
-  const target = event.currentTarget as HTMLElement
-  const rect = target.getBoundingClientRect()
+function computeValueFromPosition(
+  starEl: HTMLElement,
+  clientX: number,
+  starIndex: number,
+  step: number,
+  rtl: boolean,
+): number {
+  const rect = starEl.getBoundingClientRect()
   if (rect.width <= 0) return starIndex
   const rawFraction = rtl
-    ? (rect.right - event.clientX) / rect.width
-    : (event.clientX - rect.left) / rect.width
+    ? (rect.right - clientX) / rect.width
+    : (clientX - rect.left) / rect.width
   const fraction = clamp(rawFraction, 0, 1)
   const zonesPerStar = 1 / step
   const zone = Math.max(1, Math.ceil(fraction * zonesPerStar))
   return (starIndex - 1) + zone * step
+}
+
+function computeStarValue(event: MouseEvent, starIndex: number, step: number, rtl: boolean): number {
+  return computeValueFromPosition(event.currentTarget as HTMLElement, event.clientX, starIndex, step, rtl)
+}
+
+function findTouchStar(
+  touch: Touch,
+  rootEl: HTMLElement | null,
+): { index: number; el: HTMLElement } | null {
+  if (!rootEl || typeof document === 'undefined') return null
+  const el = document.elementFromPoint(touch.clientX, touch.clientY)
+  if (!el) return null
+  const starEl = (el as HTMLElement).closest('.vrk-rating__star') as HTMLElement | null
+  if (!starEl || !rootEl.contains(starEl)) return null
+  const stars = Array.from(rootEl.querySelectorAll('.vrk-rating__star'))
+  const idx = stars.indexOf(starEl) + 1
+  return idx > 0 ? { index: idx, el: starEl } : null
 }
 
 export function useRating(props: RatingProps, emit: EmitFn<RatingEmits>) {
@@ -53,6 +76,17 @@ export function useRating(props: RatingProps, emit: EmitFn<RatingEmits>) {
 
   function isInteractive(): boolean {
     return !props.readonly && !props.disabled
+  }
+
+  function updateHoverFromTouch(touch: Touch, rootEl: HTMLElement | null, rtl: boolean): void {
+    const found = findTouchStar(touch, rootEl)
+    if (!found) return
+    const max = props.max ?? DEFAULT_MAX
+    const step = resolveStep(props.step, max)
+    const value = computeValueFromPosition(found.el, touch.clientX, found.index, step, rtl)
+    if (value === hoverValue.value) return
+    hoverValue.value = value
+    emit('hover', value)
   }
 
   function handleMouseMove(event: MouseEvent, starIndex: number): void {
@@ -120,6 +154,34 @@ export function useRating(props: RatingProps, emit: EmitFn<RatingEmits>) {
     // has not been formally defined in the public API contract.
   }
 
+  function handleTouchStart(event: TouchEvent, rootEl: HTMLElement | null): void {
+    if (!isInteractive()) return
+    const touch = event.touches[0]
+    if (touch) updateHoverFromTouch(touch, rootEl, isRTLEvent(event))
+  }
+
+  function handleTouchMove(event: TouchEvent, rootEl: HTMLElement | null): void {
+    if (!isInteractive()) return
+    const touch = event.touches[0]
+    if (touch) updateHoverFromTouch(touch, rootEl, isRTLEvent(event))
+  }
+
+  function handleTouchEnd(): void {
+    if (!isInteractive()) return
+    const committed = hoverValue.value
+    hoverValue.value = 0
+    emit('hover', 0)
+    if (committed > 0) {
+      emit('update:modelValue', committed)
+      emit('change', committed)
+    }
+  }
+
+  function handleTouchCancel(): void {
+    hoverValue.value = 0
+    emit('hover', 0)
+  }
+
   return {
     hoverValue,
     handleClick,
@@ -127,5 +189,9 @@ export function useRating(props: RatingProps, emit: EmitFn<RatingEmits>) {
     handleMouseLeave,
     handleKeydown,
     handleMouseMove,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd,
+    handleTouchCancel,
   }
 }
