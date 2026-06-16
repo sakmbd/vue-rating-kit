@@ -28,11 +28,21 @@ function resolveStep(rawStep: number | undefined, max: number): number {
   return step
 }
 
-function computeStarValue(event: MouseEvent, starIndex: number, step: number): number {
+function isRTLEvent(event: Event): boolean {
+  if (typeof window === 'undefined') return false
+  const el = event.currentTarget as HTMLElement | null
+  if (!el) return false
+  return getComputedStyle(el).direction === 'rtl'
+}
+
+function computeStarValue(event: MouseEvent, starIndex: number, step: number, rtl: boolean): number {
   const target = event.currentTarget as HTMLElement
   const rect = target.getBoundingClientRect()
   if (rect.width <= 0) return starIndex
-  const fraction = clamp((event.clientX - rect.left) / rect.width, 0, 1)
+  const rawFraction = rtl
+    ? (rect.right - event.clientX) / rect.width
+    : (event.clientX - rect.left) / rect.width
+  const fraction = clamp(rawFraction, 0, 1)
   const zonesPerStar = 1 / step
   const zone = Math.max(1, Math.ceil(fraction * zonesPerStar))
   return (starIndex - 1) + zone * step
@@ -49,7 +59,7 @@ export function useRating(props: RatingProps, emit: EmitFn<RatingEmits>) {
     if (!isInteractive()) return
     const max = props.max ?? DEFAULT_MAX
     const step = resolveStep(props.step, max)
-    const value = computeStarValue(event, starIndex, step)
+    const value = computeStarValue(event, starIndex, step, isRTLEvent(event))
     if (value === hoverValue.value) return
     hoverValue.value = value
     emit('hover', value)
@@ -59,7 +69,7 @@ export function useRating(props: RatingProps, emit: EmitFn<RatingEmits>) {
     if (!isInteractive()) return
     const max = props.max ?? DEFAULT_MAX
     const step = resolveStep(props.step, max)
-    const value = computeStarValue(event, star, step)
+    const value = computeStarValue(event, star, step, isRTLEvent(event))
     emit('update:modelValue', value)
     emit('change', value)
   }
@@ -83,15 +93,16 @@ export function useRating(props: RatingProps, emit: EmitFn<RatingEmits>) {
     const current = props.modelValue ?? DEFAULT_VALUE
     const max = props.max ?? DEFAULT_MAX
     const step = resolveStep(props.step, max)
+    const rtl = isRTLEvent(event)
 
     let next: number
 
     switch (event.key) {
       case 'ArrowRight':
-        next = clamp(current + step, 0, max)
+        next = clamp(current + (rtl ? -step : step), 0, max)
         break
       case 'ArrowLeft':
-        next = clamp(current - step, 0, max)
+        next = clamp(current + (rtl ? step : -step), 0, max)
         break
       case 'Home':
         next = 0

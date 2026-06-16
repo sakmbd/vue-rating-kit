@@ -23,10 +23,11 @@
 .vrk-rating__star-fill {
   position: absolute;
   top: 0;
-  left: 0;
+  inset-inline-start: 0;
   overflow: hidden;
   white-space: nowrap;
   color: inherit;
+  text-align: start;
 }
 
 .vrk-rating__star--filled {
