@@ -9,7 +9,9 @@ Lightweight, accessible, enterprise-grade star rating component for Vue 3. Built
 * ⭐ Lightweight with zero runtime dependencies
 * ✨ Precision ratings with configurable step values
 * 🎨 Fractional visual rendering (half, quarter, and tenth stars)
-* ♿ Accessible with ARIA support
+* 🌍 Native RTL support through the `dir` attribute
+* 📱 Touch-friendly interactions with drag support
+* ♿ Accessible with ARIA support and screen reader improvements
 * ⌨️ Keyboard navigation support
 * 🎨 Pure CSS with customizable variables
 * 🔒 Readonly and disabled modes
@@ -88,6 +90,45 @@ const rating = ref(2.5)
 
 ---
 
+## RTL Support
+
+`vue-rating-kit` automatically respects the native HTML `dir` attribute. No additional props are required.
+
+```vue
+<div dir="rtl">
+  <VRating
+    v-model="rating"
+    :step="0.5"
+  />
+</div>
+```
+
+> **Note:** LTR remains the default behavior. RTL activates automatically when the component or one of its ancestors has `dir="rtl"`.
+
+---
+
+## Touch Support
+
+Touch interactions work automatically on touch-enabled devices.
+
+Supported interactions include:
+
+* Tap to select a rating
+* Drag across stars to preview ratings
+* Fractional precision during drag interactions
+* RTL-aware touch behavior
+
+No additional configuration is required.
+
+```vue
+<VRating
+  v-model="rating"
+  :step="0.5"
+/>
+```
+
+---
+
 ## Readonly Example
 
 ```vue
@@ -133,6 +174,20 @@ const rating = ref(2.5)
 
 ---
 
+## Custom Maximum Stars
+
+Increase or decrease the number of available stars using the `max` prop.
+
+```vue
+<VRating
+  v-model="rating"
+  :max="10"
+  :step="0.5"
+/>
+```
+
+---
+
 ## Props
 
 | Prop         | Type      | Default    | Description                                                                                                   |
@@ -160,12 +215,14 @@ const rating = ref(2.5)
 
 ## Keyboard Navigation
 
-| Key          | Action                                          |
-| ------------ | ----------------------------------------------- |
-| `ArrowRight` | Increment rating by the configured `step` value |
-| `ArrowLeft`  | Decrement rating by the configured `step` value |
-| `Home`       | Set rating to `0`                               |
-| `End`        | Set rating to the maximum value                 |
+| Key          | Action                                                |
+| ------------ | ----------------------------------------------------- |
+| `ArrowRight` | Increment rating by the configured `step` value (LTR) |
+| `ArrowLeft`  | Decrement rating by the configured `step` value (LTR) |
+| `Home`       | Set rating to `0`                                     |
+| `End`        | Set rating to the maximum value                       |
+
+> **Note:** In RTL contexts, `ArrowLeft` increments the rating and `ArrowRight` decrements it.
 
 ---
 
@@ -191,11 +248,12 @@ will trigger a development warning and automatically fall back to `1`.
 
 * `radiogroup` semantics for the rating container
 * `radio` semantics for individual stars
-* `aria-checked` support
+* Accurate `aria-checked` support for both integer and fractional ratings
 * `aria-disabled` support
 * `aria-readonly` support
 * Keyboard navigation support
 * Focus and blur boundary handling
+* Screen reader improvements for precision ratings
 * Customizable accessible labels through the `ariaLabel` prop
 
 ---
