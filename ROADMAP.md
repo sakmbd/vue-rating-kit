@@ -70,7 +70,7 @@ Features:
 * [ ] Custom icon slots
 * [ ] Heart ratings
 * [ ] Emoji ratings
-* [ ] Thumb ratings
+* [ ] Thumb ratings (skip for now)
 * [ ] CSS variable theming
 * [ ] Size variants
 * [ ] Color customization

@@ -13,7 +13,9 @@ Lightweight, accessible, enterprise-grade star rating component for Vue 3. Built
 * 📱 Touch-friendly interactions with drag support
 * ♿ Accessible with ARIA support and screen reader improvements
 * ⌨️ Keyboard navigation support
-* 🎨 Pure CSS with customizable variables
+* 🎭 Custom icon slots for emoji, text, and SVG icons
+* 📐 Size variants with named presets and numeric pixel values
+* 🌈 Color customization via props and CSS custom properties
 * 🔒 Readonly and disabled modes
 * 📦 TypeScript support with exported types
 * 🧪 Comprehensive test coverage
@@ -188,16 +190,120 @@ Increase or decrease the number of available stars using the `max` prop.
 
 ---
 
+## Custom Icon Slots
+
+Replace the default star character with any inline content using the `#filled` and `#empty` named slots.
+
+```vue
+<!-- Emoji icons -->
+<VRating v-model="rating">
+  <template #filled>❤️</template>
+  <template #empty>🤍</template>
+</VRating>
+```
+
+Both slots receive a scoped `star` prop containing the 1-based index of the star being rendered:
+
+```vue
+<VRating v-model="rating">
+  <template #filled="{ star }">
+    <span :title="`${star} stars`">★</span>
+  </template>
+  <template #empty="{ star }">
+    <span :title="`${star} stars`">☆</span>
+  </template>
+</VRating>
+```
+
+Slots work with all existing features — precision ratings, RTL, touch, keyboard, readonly, and disabled modes are unaffected.
+
+> **Note:** Slot content must be inline-level (a single emoji, text character, or an `inline`/`inline-block` SVG). Block-level elements break precision clipping, which relies on `overflow: hidden` and a dynamic width on the fill container.
+
+---
+
+## Size Variants
+
+Control star size using the `size` prop. Pass a named preset or an exact number of pixels.
+
+**Named presets** scale both star size and the gap between stars:
+
+```vue
+<VRating v-model="rating" size="sm" />
+<VRating v-model="rating" size="md" />
+<VRating v-model="rating" size="lg" />
+```
+
+| Preset | Star size | Gap        |
+| ------ | --------- | ---------- |
+| `sm`   | `1.25rem` | `0.125rem` |
+| `md`   | `2rem`    | `0.25rem`  |
+| `lg`   | `3rem`    | `0.5rem`   |
+
+**Numeric values** set the star size in pixels. The gap retains its default value and can be overridden separately via `--vrk-star-gap` if needed:
+
+```vue
+<VRating v-model="rating" :size="40" />
+```
+
+For sizes defined in other CSS units (`rem`, `em`, `clamp(...)`), set `--vrk-star-size` directly via CSS:
+
+```css
+.my-rating {
+  --vrk-star-size: clamp(1.5rem, 3vw, 3rem);
+}
+```
+
+---
+
+## Color Customization
+
+Use the `color`, `emptyColor`, and `hoverColor` props to customize star colors without writing CSS.
+
+```vue
+<!-- Filled star color only -->
+<VRating v-model="rating" color="#e63946" />
+
+<!-- Filled and empty colors -->
+<VRating v-model="rating" color="#e63946" emptyColor="#dee2e6" />
+
+<!-- Filled and explicit hover color -->
+<VRating v-model="rating" color="green" hoverColor="darkgreen" />
+
+<!-- Combined with size -->
+<VRating v-model="rating" size="lg" color="tomato" emptyColor="#ddd" />
+```
+
+All three props accept any valid CSS color value: named colors, hex, `rgb()`, `hsl()`, or `var(--my-token)` for design token integration.
+
+**Hover color inheritance**
+
+When `hoverColor` is omitted, the hover state automatically inherits the `color` prop value:
+
+```vue
+<!-- Hover stars will also be green -->
+<VRating v-model="rating" color="green" />
+```
+
+When neither `hoverColor` nor `color` is set, the package default hover color (`#f5c842`) is used.
+
+> **Note:** CSS custom properties take precedence over color props. Setting `--vrk-color-hover` on the component or a parent element always overrides the `hoverColor` prop, regardless of prop value. This lets you keep CSS as the authoritative color source while using props as convenient defaults.
+
+---
+
 ## Props
 
-| Prop         | Type      | Default    | Description                                                                                                   |
-| ------------ | --------- | ---------- | ------------------------------------------------------------------------------------------------------------- |
-| `modelValue` | `number`  | `0`        | Current rating value (use with `v-model`)                                                                     |
-| `max`        | `number`  | `5`        | Total number of stars                                                                                         |
-| `step`       | `number`  | `1`        | Granularity of rating values. Supports `1`, `0.5`, `0.25`, `0.2`, and `0.1`. Invalid values fall back to `1`. |
-| `readonly`   | `boolean` | `false`    | Prevents value changes while preserving the current rating display                                            |
-| `disabled`   | `boolean` | `false`    | Prevents all interaction while preserving the current rating display using disabled styling                   |
-| `ariaLabel`  | `string`  | `'Rating'` | Accessible label for the rating group                                                                         |
+| Prop         | Type                              | Default    | Description                                                                                                    |
+| ------------ | --------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------- |
+| `modelValue` | `number`                          | `0`        | Current rating value (use with `v-model`)                                                                      |
+| `max`        | `number`                          | `5`        | Total number of stars                                                                                          |
+| `step`       | `number`                          | `1`        | Granularity of rating values. Supports `1`, `0.5`, `0.25`, `0.2`, and `0.1`. Invalid values fall back to `1`. |
+| `readonly`   | `boolean`                         | `false`    | Prevents value changes while preserving the current rating display                                             |
+| `disabled`   | `boolean`                         | `false`    | Prevents all interaction while preserving the current rating display using disabled styling                    |
+| `ariaLabel`  | `string`                          | `'Rating'` | Accessible label for the rating group                                                                          |
+| `size`       | `'sm' \| 'md' \| 'lg' \| number` | —          | Star size. Named presets scale size and gap together. A number sets the star size in pixels only.              |
+| `color`      | `string`                          | —          | Filled and partial star color. Accepts any CSS color value. Sets `--vrk-color-filled` as an inline style.      |
+| `emptyColor` | `string`                          | —          | Empty (unselected) star track color. Sets `--vrk-color-empty` as an inline style.                             |
+| `hoverColor` | `string`                          | —          | Hover state color. Inherits from `color` when omitted. CSS variable `--vrk-color-hover` always takes precedence. |
 
 ---
 
@@ -267,6 +373,9 @@ import type {
   RatingValue,
   RatingProps,
   RatingEmits,
+  RatingSlotProps,
+  RatingSlots,
+  RatingSize,
 } from 'vue-rating-kit'
 ```
 
@@ -277,6 +386,16 @@ import { ref } from 'vue'
 import type { RatingValue } from 'vue-rating-kit'
 
 const rating = ref<RatingValue>(0)
+```
+
+Use `RatingSlotProps` when building a typed wrapper around custom slot content:
+
+```ts
+import type { RatingSlotProps } from 'vue-rating-kit'
+
+function renderIcon(props: RatingSlotProps) {
+  return props.star <= activeRating ? '❤️' : '🤍'
+}
 ```
 
 ---
@@ -308,6 +427,8 @@ Override CSS custom properties on the `.vrk-rating` element or a parent element.
 | `--vrk-star-size`      | Star size              |
 | `--vrk-star-gap`       | Space between stars    |
 | `--vrk-focus-outline`  | Keyboard focus outline |
+
+> **Note:** CSS custom properties always take precedence over component props. A `--vrk-color-hover` rule set on the component or any ancestor will override the `hoverColor` prop. This makes the CSS variable system the authoritative customization layer, with props serving as convenient in-template defaults.
 
 ---
 
