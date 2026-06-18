@@ -88,6 +88,31 @@ export interface RatingProps {
   step?: number;
 }
 
+/**
+ * Scoped slot props passed to each `#filled` and `#empty` slot invocation.
+ *
+ * `star` is the 1-based index of the star being rendered (1 … max).
+ * Batch 1 consumers may ignore it; it is exposed now so future batches
+ * can implement per-star icon overrides without an API break.
+ */
+export type RatingSlotProps = {
+  star: number
+}
+
+/**
+ * Slot definitions for VRating.
+ *
+ * Both slots are optional. When omitted the default Unicode star (★) is rendered.
+ *
+ * Slot content must be **inline-level** (emoji, text, or inline/inline-block SVG).
+ * Block-level elements break precision clipping because the fill container clips
+ * its child via `overflow: hidden` + a dynamic `width` percentage.
+ */
+export type RatingSlots = {
+  filled?: (props: RatingSlotProps) => any
+  empty?: (props: RatingSlotProps) => any
+}
+
 export type RatingEmits = {
   /**
    * Emitted when the user selects a star via click or keyboard

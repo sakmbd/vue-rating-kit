@@ -11,6 +11,10 @@ const readonly = ref(4.5)
 const tenStars = ref(7.5)
 const rtlTenStars = ref(7.5)
 
+const hearts = ref(3.5)
+const emoji = ref(2.5)
+const svgRating = ref(2.5)
+
 function handleChange(label: string, value: number) {
   console.log(`${label}:`, value)
 }
@@ -113,5 +117,87 @@ function handleChange(label: string, value: number) {
         @change="value => handleChange('RTL 10 Stars', value)"
       />
     </section>
+
+    <!-- Custom Heart Icons -->
+    <section>
+      <h2>Custom Heart Icons</h2>
+      <p>Value: {{ hearts }}</p>
+
+      <VRating
+        v-model="hearts"
+        :step="0.5"
+        @change="value => handleChange('Heart Rating', value)"
+      >
+        <template #filled>
+          ❤️
+        </template>
+
+        <template #empty>
+          🤍
+        </template>
+      </VRating>
+    </section>
+
+    <!-- Custom Emoji Icons -->
+    <section>
+      <h2>Custom Emoji Icons</h2>
+      <p>Value: {{ emoji }}</p>
+
+      <VRating
+        v-model="emoji"
+        :step="0.5"
+        @change="value => handleChange('Emoji Rating', value)"
+      >
+        <template #filled>
+          😍
+        </template>
+
+        <template #empty>
+          <span style="filter:grayscale(1)">😍</span>
+        </template>
+      </VRating>
+    </section>
+
+    <!-- Custom SVG Icons -->
+    <section>
+  <h2>Custom SVG Icons</h2>
+  <p>Value: {{ svgRating }}</p>
+
+  <VRating
+    v-model="svgRating"
+    :step="0.5"
+    @change="value => handleChange('SVG Rating', value)"
+  >
+    <template #filled>
+      <svg
+        viewBox="0 0 24 24"
+        width="1em"
+        height="1em"
+        style="display:inline-block;vertical-align:middle;"
+      >
+        <path
+          fill="currentColor"
+          d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.03L12 21.35Z"
+        />
+      </svg>
+    </template>
+
+    <template #empty>
+      <svg
+        viewBox="0 0 24 24"
+        width="1em"
+        height="1em"
+        style="display:inline-block;vertical-align:middle;"
+      >
+        <path
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.03L12 21.35Z"
+        />
+      </svg>
+    </template>
+  </VRating>
+</section>
   </div>
 </template>

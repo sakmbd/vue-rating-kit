@@ -3,7 +3,7 @@ import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { DEFAULT_MAX, DEFAULT_VALUE } from '../constants'
 import { clamp } from '../utils/clamp'
 import { useRating } from '../composables/useRating'
-import type { RatingProps, RatingEmits } from '../types/rating'
+import type { RatingProps, RatingEmits, RatingSlotProps } from '../types/rating'
 import '../styles/rating.css'
 
 const props = withDefaults(defineProps<RatingProps>(), {
@@ -15,6 +15,11 @@ const props = withDefaults(defineProps<RatingProps>(), {
 })
 
 const emit = defineEmits<RatingEmits>()
+
+defineSlots<{
+  filled?(props: RatingSlotProps): any
+  empty?(props: RatingSlotProps): any
+}>()
 
 const rootRef = ref<HTMLElement | null>(null)
 
@@ -138,12 +143,16 @@ function getStarTabIndex(star: number): number {
       @mouseleave="handleMouseLeave"
       @keydown="handleKeydown"
     >
-      <span class="vrk-rating__star-track" aria-hidden="true">&#9733;</span>
+      <span class="vrk-rating__star-track" aria-hidden="true">
+        <slot name="empty" :star="star">&#9733;</slot>
+      </span>
       <span
         class="vrk-rating__star-fill"
         :style="{ width: getFillPercent(star) + '%' }"
         aria-hidden="true"
-      >&#9733;</span>
+      >
+        <slot name="filled" :star="star">&#9733;</slot>
+      </span>
     </span>
   </div>
 </template>
