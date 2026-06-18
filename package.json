@@ -1,6 +1,6 @@
 {
   "name": "vue-rating-kit",
-  "version": "0.1.0-beta.0",
+  "version": "0.1.0-beta.1",
   "description": "Lightweight, accessible, TypeScript-first star rating component for Vue 3",
   "keywords": [
     "vue",
