@@ -29,6 +29,14 @@ const sizeStyle = computed<Record<string, string> | undefined>(() =>
   typeof props.size === 'number' ? { '--vrk-star-size': `${props.size}px` } : undefined
 )
 
+const colorStyle = computed<Record<string, string> | undefined>(() => {
+  const style: Record<string, string> = {}
+  if (props.color) style['--vrk-color-filled'] = props.color
+  if (props.emptyColor) style['--vrk-color-empty'] = props.emptyColor
+  if (props.hoverColor) style['--vrk-color-hover-prop'] = props.hoverColor
+  return Object.keys(style).length > 0 ? style : undefined
+})
+
 const rootRef = ref<HTMLElement | null>(null)
 
 const {
@@ -127,7 +135,7 @@ function getStarTabIndex(star: number): number {
     ref="rootRef"
     class="vrk-rating"
     :class="sizeClass"
-    :style="sizeStyle"
+    :style="[sizeStyle, colorStyle]"
     role="radiogroup"
     :aria-label="ariaLabel"
     :aria-disabled="disabled || undefined"

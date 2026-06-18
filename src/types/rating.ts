@@ -105,6 +105,53 @@ export interface RatingProps {
    * <VRating :size="40" />
    */
   size?: RatingSize | number;
+
+  /**
+   * Color of filled and partial stars.
+   *
+   * Accepts any valid CSS color value (named color, hex, rgb, hsl, or
+   * `var(--my-token)` for design token integration).
+   *
+   * Sets `--vrk-color-filled` as an inline style on the root element,
+   * taking precedence over any stylesheet-defined value of that variable.
+   * The hover color (`--vrk-color-hover`) is not affected; override it
+   * via the CSS variable directly if needed.
+   *
+   * Has no visual effect on emoji slot content — emoji colors are
+   * intrinsic to the character and are not controlled by CSS `color`.
+   *
+   * @example
+   * <VRating color="#e63946" />
+   * <VRating :color="brandColor" />
+   */
+  color?: string;
+
+  /**
+   * Color of the empty (unselected) star track.
+   *
+   * Accepts any valid CSS color value.
+   * Sets `--vrk-color-empty` as an inline style on the root element.
+   *
+   * @example
+   * <VRating emptyColor="#dee2e6" />
+   */
+  emptyColor?: string;
+
+  /**
+   * Color of stars in the hover state.
+   *
+   * When omitted, hover automatically inherits the `color` prop value.
+   * When neither `hoverColor` nor `color` is set, the package default
+   * hover color (`#f5c842`) is used.
+   *
+   * Sets the internal `--vrk-color-hover-prop` CSS variable.
+   * Consumer CSS that overrides `--vrk-color-hover` always takes precedence
+   * over this prop — the component never writes `--vrk-color-hover` inline.
+   *
+   * @example
+   * <VRating color="green" hoverColor="darkgreen" />
+   */
+  hoverColor?: string;
 }
 
 /**

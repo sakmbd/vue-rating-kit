@@ -40,7 +40,8 @@
 }
 
 .vrk-rating__star--hover {
-  color: var(--vrk-color-hover);
+  /* Chain: consumer CSS var → hoverColor prop → color prop (auto-inherit) → package default */
+  color: var(--vrk-color-hover, var(--vrk-color-hover-prop, var(--vrk-color-filled, #f5c842)));
 }
 
 /* cursor only — interaction blocking is handled by useRating's isInteractive() guard,

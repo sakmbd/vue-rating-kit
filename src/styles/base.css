@@ -1,7 +1,6 @@
 .vrk-rating {
   --vrk-color-filled: #f5a623;
   --vrk-color-empty: #d3d3d3;
-  --vrk-color-hover: #f5c842;
   --vrk-color-disabled: #a9a9a9;
   --vrk-star-size: 2rem;
   --vrk-star-gap: 0.25rem;

@@ -22,6 +22,11 @@ const large = ref(3);
 const custom18 = ref(3);
 const custom40 = ref(3);
 
+const colorOnly = ref(3);
+const emptyColorOnly = ref(3);
+const colorCombo = ref(3.5);
+const colorSize = ref(3.5);
+
 function handleChange(label: string, value: number) {
   console.log(`${label}:`, value);
 }
@@ -230,6 +235,74 @@ function handleChange(label: string, value: number) {
         <template #filled> ❤️ </template>
 
         <template #empty> 🤍 </template>
+      </VRating>
+    </section>
+
+    <!-- Color Only -->
+    <section>
+      <h2>Color Only</h2>
+      <p>Value: {{ colorOnly }}</p>
+      <VRating v-model="colorOnly" color="green" />
+    </section>
+    <!-- Empty Color Only -->
+    <section>
+      <h2>Empty Color Only</h2>
+      <p>Value: {{ emptyColorOnly }}</p>
+      <VRating v-model="emptyColorOnly" emptyColor="#d1d5db" />
+    </section>
+    <!-- Filled + Empty Color -->
+    <section>
+      <h2>Filled + Empty Color</h2>
+      <p>Value: {{ colorCombo }}</p>
+      <VRating v-model="colorCombo" :step="0.5" color="green" emptyColor="grey" />
+    </section>
+    <!-- Size + Color -->
+    <section>
+      <h2>Size + Color</h2>
+      <p>Value: {{ colorSize }}</p>
+      <VRating :step="0.5" v-model="colorSize" size="lg" color="tomato" emptyColor="#ddd" />
+    </section>
+    <!-- Heart Slots + Color -->
+    <section>
+      <h2>Heart Slots + Color</h2>
+      <p>Value: {{ hearts }}</p>
+      <VRating v-model="hearts" :step="0.5" color="crimson">
+        <template #filled> ♥ </template> <template #empty> ♡ </template>
+      </VRating>
+    </section>
+    <!-- SVG + Color -->
+    <section>
+      <h2>SVG + Color</h2>
+      <p>Value: {{ svgRating }}</p>
+      <VRating v-model="svgRating" :step="0.5" color="tomato" emptyColor="#ccc">
+        <template #filled>
+          <svg
+            viewBox="0 0 24 24"
+            width="1em"
+            height="1em"
+            style="display: inline-block; vertical-align: middle"
+          >
+            <path
+              fill="currentColor"
+              d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.03L12 21.35Z"
+            />
+          </svg>
+        </template>
+        <template #empty>
+          <svg
+            viewBox="0 0 24 24"
+            width="1em"
+            height="1em"
+            style="display: inline-block; vertical-align: middle"
+          >
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.03L12 21.35Z"
+            />
+          </svg>
+        </template>
       </VRating>
     </section>
   </div>
