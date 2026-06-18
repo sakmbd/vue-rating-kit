@@ -86,7 +86,39 @@ export interface RatingProps {
    * @default 1
    */
   step?: number;
+
+  /**
+   * Size of each star.
+   *
+   * Pass a named preset (`'sm'` | `'md'` | `'lg'`) or a raw `number` (pixels).
+   * When omitted the component renders at the base size (`2rem`) without adding
+   * any modifier class — existing consumers are unaffected.
+   *
+   * Named presets also scale `--vrk-star-gap` proportionally. Numeric values
+   * set `--vrk-star-size` only; override `--vrk-star-gap` via CSS if needed.
+   *
+   * @example
+   * // named preset
+   * <VRating size="lg" />
+   *
+   * // exact pixel size
+   * <VRating :size="40" />
+   */
+  size?: RatingSize | number;
 }
+
+/**
+ * Named size preset for VRating.
+ *
+ * Use a named preset for common sizes or pass a raw `number` (pixels) for
+ * precise control. Consumers needing CSS units other than px (rem, em, clamp)
+ * should override the `--vrk-star-size` CSS custom property directly.
+ *
+ * - `'sm'` → 1.25rem stars
+ * - `'md'` → 2rem stars (same as the unsized default)
+ * - `'lg'` → 3rem stars
+ */
+export type RatingSize = 'sm' | 'md' | 'lg'
 
 /**
  * Scoped slot props passed to each `#filled` and `#empty` slot invocation.

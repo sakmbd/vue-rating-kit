@@ -1,27 +1,34 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { VRating } from './index'
+import { ref } from "vue";
+import { VRating } from "./index";
 
-const basic = ref(3)
-const precision = ref(2.5)
-const rtlBasic = ref(3)
-const rtlPrecision = ref(2.5)
-const disabled = ref(2.5)
-const readonly = ref(4.5)
-const tenStars = ref(7.5)
-const rtlTenStars = ref(7.5)
+const basic = ref(3);
+const precision = ref(2.5);
+const rtlBasic = ref(3);
+const rtlPrecision = ref(2.5);
+const disabled = ref(2.5);
+const readonly = ref(4.5);
+const tenStars = ref(7.5);
+const rtlTenStars = ref(7.5);
 
-const hearts = ref(3.5)
-const emoji = ref(2.5)
-const svgRating = ref(2.5)
+const hearts = ref(3.5);
+const emoji = ref(2.5);
+const svgRating = ref(2.5);
+
+const small = ref(3);
+const medium = ref(3);
+const large = ref(3);
+
+const custom18 = ref(3);
+const custom40 = ref(3);
 
 function handleChange(label: string, value: number) {
-  console.log(`${label}:`, value)
+  console.log(`${label}:`, value);
 }
 </script>
 
 <template>
-  <div style="padding: 2rem; display: grid; gap: 2rem;">
+  <div style="padding: 2rem; display: grid; gap: 2rem">
     <!-- LTR Basic -->
     <section>
       <h2>LTR - Basic</h2>
@@ -29,7 +36,7 @@ function handleChange(label: string, value: number) {
 
       <VRating
         v-model="basic"
-        @change="value => handleChange('LTR Basic', value)"
+        @change="(value) => handleChange('LTR Basic', value)"
       />
     </section>
 
@@ -41,7 +48,7 @@ function handleChange(label: string, value: number) {
       <VRating
         v-model="precision"
         :step="0.25"
-        @change="value => handleChange('LTR Precision', value)"
+        @change="(value) => handleChange('LTR Precision', value)"
       />
     </section>
 
@@ -52,7 +59,7 @@ function handleChange(label: string, value: number) {
 
       <VRating
         v-model="rtlBasic"
-        @change="value => handleChange('RTL Basic', value)"
+        @change="(value) => handleChange('RTL Basic', value)"
       />
     </section>
 
@@ -64,7 +71,7 @@ function handleChange(label: string, value: number) {
       <VRating
         v-model="rtlPrecision"
         :step="0.25"
-        @change="value => handleChange('RTL Precision', value)"
+        @change="(value) => handleChange('RTL Precision', value)"
       />
     </section>
 
@@ -73,11 +80,7 @@ function handleChange(label: string, value: number) {
       <h2>Disabled</h2>
       <p>Value: {{ disabled }}</p>
 
-      <VRating
-        v-model="disabled"
-        :step="0.5"
-        disabled
-      />
+      <VRating v-model="disabled" :step="0.5" disabled />
     </section>
 
     <!-- Readonly -->
@@ -85,11 +88,7 @@ function handleChange(label: string, value: number) {
       <h2>Readonly</h2>
       <p>Value: {{ readonly }}</p>
 
-      <VRating
-        v-model="readonly"
-        :step="0.5"
-        readonly
-      />
+      <VRating v-model="readonly" :step="0.5" readonly />
     </section>
 
     <!-- 10 Stars -->
@@ -101,7 +100,7 @@ function handleChange(label: string, value: number) {
         v-model="tenStars"
         :max="10"
         :step="0.5"
-        @change="value => handleChange('LTR 10 Stars', value)"
+        @change="(value) => handleChange('LTR 10 Stars', value)"
       />
     </section>
 
@@ -114,7 +113,7 @@ function handleChange(label: string, value: number) {
         v-model="rtlTenStars"
         :max="10"
         :step="0.5"
-        @change="value => handleChange('RTL 10 Stars', value)"
+        @change="(value) => handleChange('RTL 10 Stars', value)"
       />
     </section>
 
@@ -126,15 +125,11 @@ function handleChange(label: string, value: number) {
       <VRating
         v-model="hearts"
         :step="0.5"
-        @change="value => handleChange('Heart Rating', value)"
+        @change="(value) => handleChange('Heart Rating', value)"
       >
-        <template #filled>
-          ❤️
-        </template>
+        <template #filled> ❤️ </template>
 
-        <template #empty>
-          🤍
-        </template>
+        <template #empty> 🤍 </template>
       </VRating>
     </section>
 
@@ -146,58 +141,96 @@ function handleChange(label: string, value: number) {
       <VRating
         v-model="emoji"
         :step="0.5"
-        @change="value => handleChange('Emoji Rating', value)"
+        @change="(value) => handleChange('Emoji Rating', value)"
       >
-        <template #filled>
-          😍
-        </template>
+        <template #filled> 😍 </template>
 
         <template #empty>
-          <span style="filter:grayscale(1)">😍</span>
+          <span style="filter: grayscale(1)">😍</span>
         </template>
       </VRating>
     </section>
 
     <!-- Custom SVG Icons -->
     <section>
-  <h2>Custom SVG Icons</h2>
-  <p>Value: {{ svgRating }}</p>
+      <h2>Custom SVG Icons</h2>
+      <p>Value: {{ svgRating }}</p>
 
-  <VRating
-    v-model="svgRating"
-    :step="0.5"
-    @change="value => handleChange('SVG Rating', value)"
-  >
-    <template #filled>
-      <svg
-        viewBox="0 0 24 24"
-        width="1em"
-        height="1em"
-        style="display:inline-block;vertical-align:middle;"
+      <VRating
+        v-model="svgRating"
+        :step="0.5"
+        @change="(value) => handleChange('SVG Rating', value)"
       >
-        <path
-          fill="currentColor"
-          d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.03L12 21.35Z"
-        />
-      </svg>
-    </template>
+        <template #filled>
+          <svg
+            viewBox="0 0 24 24"
+            width="1em"
+            height="1em"
+            style="display: inline-block; vertical-align: middle"
+          >
+            <path
+              fill="currentColor"
+              d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.03L12 21.35Z"
+            />
+          </svg>
+        </template>
 
-    <template #empty>
-      <svg
-        viewBox="0 0 24 24"
-        width="1em"
-        height="1em"
-        style="display:inline-block;vertical-align:middle;"
-      >
-        <path
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.03L12 21.35Z"
-        />
-      </svg>
-    </template>
-  </VRating>
-</section>
+        <template #empty>
+          <svg
+            viewBox="0 0 24 24"
+            width="1em"
+            height="1em"
+            style="display: inline-block; vertical-align: middle"
+          >
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.08C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.03L12 21.35Z"
+            />
+          </svg>
+        </template>
+      </VRating>
+    </section>
+
+    <section>
+      <h2>Size - Small</h2>
+
+      <VRating v-model="small" size="sm" />
+    </section>
+
+    <section>
+      <h2>Size - Medium</h2>
+
+      <VRating v-model="medium" size="md" />
+    </section>
+
+    <section>
+      <h2>Size - Large</h2>
+
+      <VRating v-model="large" size="lg" />
+    </section>
+
+    <section>
+      <h2>Numeric Size 18</h2>
+
+      <VRating v-model="custom18" :size="18" />
+    </section>
+
+    <section>
+      <h2>Numeric Size 40</h2>
+
+      <VRating v-model="custom40" :size="40" />
+    </section>
+
+    <section>
+      <h2>Large Hearts</h2>
+
+      <VRating v-model="large" size="lg" :step="0.5">
+        <template #filled> ❤️ </template>
+
+        <template #empty> 🤍 </template>
+      </VRating>
+    </section>
   </div>
 </template>

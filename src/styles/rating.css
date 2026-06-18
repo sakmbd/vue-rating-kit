@@ -77,6 +77,21 @@
   border: 0;
 }
 
+.vrk-rating--sm {
+  --vrk-star-size: 1.25rem;
+  --vrk-star-gap: 0.125rem;
+}
+
+.vrk-rating--md {
+  --vrk-star-size: 2rem;
+  --vrk-star-gap: 0.25rem;
+}
+
+.vrk-rating--lg {
+  --vrk-star-size: 3rem;
+  --vrk-star-gap: 0.5rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .vrk-rating__star,
   .vrk-rating__star-fill {

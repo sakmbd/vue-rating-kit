@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { DEFAULT_MAX, DEFAULT_VALUE } from '../constants'
 import { clamp } from '../utils/clamp'
 import { useRating } from '../composables/useRating'
@@ -20,6 +20,14 @@ defineSlots<{
   filled?(props: RatingSlotProps): any
   empty?(props: RatingSlotProps): any
 }>()
+
+const sizeClass = computed(() =>
+  typeof props.size === 'string' ? `vrk-rating--${props.size}` : undefined
+)
+
+const sizeStyle = computed<Record<string, string> | undefined>(() =>
+  typeof props.size === 'number' ? { '--vrk-star-size': `${props.size}px` } : undefined
+)
 
 const rootRef = ref<HTMLElement | null>(null)
 
@@ -118,6 +126,8 @@ function getStarTabIndex(star: number): number {
   <div
     ref="rootRef"
     class="vrk-rating"
+    :class="sizeClass"
+    :style="sizeStyle"
     role="radiogroup"
     :aria-label="ariaLabel"
     :aria-disabled="disabled || undefined"
