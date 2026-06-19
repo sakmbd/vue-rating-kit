@@ -36,3 +36,10 @@ jobs:
 
       - name: Build package
         run: npm run build
+
+      - name: Verify build output
+        run: |
+          test -f dist/vue-rating-kit.es.js
+          test -f dist/vue-rating-kit.cjs.js
+          test -f dist/vue-rating-kit.css
+          test -d dist/types/src
