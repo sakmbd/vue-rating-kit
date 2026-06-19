@@ -444,6 +444,16 @@ npm run test:run
 npm run build
 ```
 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for full contribution guidelines.
+
+## Migration Guide
+
+No migration guides are currently required.
+
+The package is currently in beta and has not introduced any breaking changes.
+
+Future migration guides will be documented here.
+
 ---
 
 ## License
