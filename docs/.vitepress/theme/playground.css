@@ -1,0 +1,10 @@
+/* Scoped to the playground page only — applied via pageClass: playground-page frontmatter */
+
+.playground-page .content-container {
+  max-width: none !important;
+}
+
+.playground-page .vp-doc {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
