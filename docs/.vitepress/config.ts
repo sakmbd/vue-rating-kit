@@ -5,6 +5,7 @@ import path from 'path'
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 export default defineConfig({
+  base: '/vue-rating-kit/',
   title: 'Vue Rating Kit',
   description: 'Lightweight, accessible, TypeScript-first star rating component for Vue 3',
 
