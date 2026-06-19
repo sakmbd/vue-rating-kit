@@ -23,6 +23,10 @@ Lightweight, accessible, enterprise-grade star rating component for Vue 3. Built
 
 ---
 
+📚 [Documentation](https://sakmbd.github.io/vue-rating-kit/) · 🎮 [Interactive Playground](https://sakmbd.github.io/vue-rating-kit/guide/playground.html) · 📦 [NPM](https://www.npmjs.com/package/vue-rating-kit) · 🐙 [GitHub](https://github.com/sakmbd/vue-rating-kit)
+
+---
+
 ## Installation
 
 ```bash

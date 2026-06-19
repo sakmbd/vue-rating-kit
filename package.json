@@ -1,15 +1,22 @@
 {
   "name": "vue-rating-kit",
   "version": "0.1.0-beta.1",
-  "description": "Lightweight, accessible, TypeScript-first star rating component for Vue 3",
+  "description": "Lightweight, accessible, TypeScript-first rating component for Vue 3 with precision ratings, RTL support, custom icons, and SSR compatibility",
   "keywords": [
     "vue",
     "vue3",
     "star-rating",
+    "rating",
     "rating-component",
+    "vue-rating",
+    "vue-rating-component",
     "typescript",
     "accessibility",
-    "composition-api"
+    "composition-api",
+    "vite",
+    "nuxt",
+    "nuxt3",
+    "component-library"
   ],
   "license": "MIT",
   "type": "module",
@@ -65,7 +72,7 @@
     "type": "git",
     "url": "git+https://github.com/sakmbd/vue-rating-kit.git"
   },
-  "homepage": "https://github.com/sakmbd/vue-rating-kit#readme",
+  "homepage": "https://sakmbd.github.io/vue-rating-kit/",
   "bugs": {
     "url": "https://github.com/sakmbd/vue-rating-kit/issues"
   }
