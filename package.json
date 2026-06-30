@@ -1,6 +1,6 @@
 {
   "name": "vue-rating-kit",
-  "version": "0.1.0-beta.2",
+  "version": "1.0.0",
   "description": "Lightweight, accessible, TypeScript-first rating component for Vue 3 with precision ratings, RTL support, custom icons, and SSR compatibility",
   "keywords": [
     "vue",
