@@ -450,9 +450,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for full contribution guidelines.
 
 No migration guides are currently required.
 
-The package is currently in beta and has not introduced any breaking changes.
+vue-rating-kit `1.0.0` is the first stable release. No breaking changes have been introduced.
 
-Future migration guides will be documented here.
+Future migration guides will be documented here when breaking changes occur.
 
 ---
 

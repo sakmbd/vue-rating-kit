@@ -2,9 +2,9 @@
 
 ## Current Status
 
-vue-rating-kit is currently in **beta** (`0.1.0-beta.x`).
+vue-rating-kit `1.0.0` is the first stable release.
 
-No breaking changes have been introduced yet and no migration steps are currently required.
+No breaking changes have been introduced and no migration steps are currently required.
 
 ---
 
